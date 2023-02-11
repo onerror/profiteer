@@ -1,0 +1,21 @@
+{
+    "name": "pyast/test_task",
+    "autoload": {
+        "psr-4": {
+            "": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "e.pyastolov",
+            "email": "pyastolov@gmail.com"
+        }
+    ],
+    "require": {
+        "monolog/monolog": "^2.5",
+        "ext-json": "*",
+        "phpunit/phpunit": "^9.5",
+        "ext-pdo": "*",
+        "bramus/router": "~1.6"
+    }
+}
