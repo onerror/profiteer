@@ -45,6 +45,7 @@
       <excludeFolder url="file://$MODULE_DIR$/app/vendor/guzzlehttp/guzzle" />
       <excludeFolder url="file://$MODULE_DIR$/app/vendor/guzzlehttp/promises" />
       <excludeFolder url="file://$MODULE_DIR$/app/vendor/guzzlehttp/psr7" />
+      <excludeFolder url="file://$MODULE_DIR$/app/vendor" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

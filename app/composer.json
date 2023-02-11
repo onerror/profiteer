@@ -1,5 +1,5 @@
 {
-    "name": "pyast/test_task",
+    "name": "onerror/profiteer",
     "autoload": {
         "psr-4": {
             "": "src/"
@@ -18,5 +18,10 @@
         "ext-pdo": "*",
         "bramus/router": "~1.6",
         "guzzlehttp/guzzle": "^7.5"
+    },
+    "config": {
+        "platform": {
+            "php": "8.2"
+        }
     }
 }

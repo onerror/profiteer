@@ -1,5 +1,6 @@
 .env
 /app/vendor
+/app/test.log
 composer.phar
 composer.lock
 .env.*.php
