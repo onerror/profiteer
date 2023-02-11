@@ -16,6 +16,7 @@
         "ext-json": "*",
         "phpunit/phpunit": "^9.5",
         "ext-pdo": "*",
-        "bramus/router": "~1.6"
+        "bramus/router": "~1.6",
+        "guzzlehttp/guzzle": "^7.5"
     }
 }
