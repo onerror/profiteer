@@ -14,11 +14,7 @@ class DashboardController
     
     public static function mainPage()
     {
-        $endDate = (new \DateTimeImmutable('today'))->sub(new \DateInterval('P30D'));
-        $data = [
-            'start' => $endDate->format(self::$dateFormatForDiagrams),
-            'end' => (new \DateTimeImmutable('today'))->format(self::$dateFormatForDiagrams),
-        ];
+        $data = [];
         MainPageView::render($data);
     }
 }
