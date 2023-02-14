@@ -2,7 +2,7 @@
 
 namespace FrontControllers;
 
-abstract class FrontController
+interface FrontController
 {
 
 }

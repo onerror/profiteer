@@ -29,7 +29,7 @@
 <div class="container">
     <div class="text-center mt-5">
         <h1>Profiteer Project</h1>
-        <p class="lead">A dashboard</p>
+        <p class="lead">Some Kapitalbank data here</p>
     </div>
 
 </div>

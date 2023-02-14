@@ -1,11 +1,11 @@
 <?php
 
-use ApiControllers\DashboardDataController;
+use ApiControllers\MainPageDataController;
 use Bramus\Router\Router;
-use FrontControllers\DashboardController;
+use FrontControllers\MainPageController;
 use Registry\Registry;
 use Repositories\CustomerRepository;
-use Repositories\DashboardRepository;
+use Repositories\ExhangeRatesRepository;
 use Repositories\OrderRepository;
 
 $template404Path = __DIR__ . '/../src/templates/404.php';
@@ -18,16 +18,14 @@ $router->set404(function () use ($template404Path) {
     require($template404Path);
 });
 $router->get('/', function () {
-    DashboardController::mainPage();
+    MainPageController::mainPage();
 });
-$router->get('/api/dashboard_data', DashboardDataController::class . '@get');
-$router->get('/api/dashboard_data/{start}/{end}', function ($start, $end) use ($testDb) {
-    DashboardDataController::get(
+$router->get('/', MainPageController::class . '@get');
+$router->get('/api/', MainPageController::class . '@get');
+$router->get('/api/{start}/{end}', function ($start, $end) use ($testDb) {
+    MainPageDataController::get(
         (new DateTimeImmutable())->setTimestamp((int)$start),
-        (new DateTimeImmutable())->setTimestamp((int)$end),
-        new DashboardRepository($testDb),
-        new OrderRepository($testDb),
-        new CustomerRepository($testDb)
+        (new DateTimeImmutable())->setTimestamp((int)$end)
     );
 });
 $router->run();

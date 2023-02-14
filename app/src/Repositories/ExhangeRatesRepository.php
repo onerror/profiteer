@@ -2,7 +2,7 @@
 
 namespace Repositories;
 
-class DashboardRepository extends AbstractRepository
+class ExhangeRatesRepository extends AbstractRepository
 {
     /**
      *

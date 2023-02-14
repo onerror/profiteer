@@ -13,7 +13,7 @@ $testDbConfig = [
 
 // logger init
 $log = new Monolog\Logger($loggerConfig['title']);
-$log->pushHandler(new Monolog\Handler\StreamHandler($loggerConfig['file_name'], Monolog\Logger::ERROR));
+$log->pushHandler(new Monolog\Handler\StreamHandler("php://stdout", Monolog\Logger::ERROR));
 
 try {
     // create db connection
