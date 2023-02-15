@@ -30,11 +30,9 @@ try {
     Registry::set(Registry::LOGGER, $log);
     Registry::set(Registry::DB, $testDb);
     Registry::set(Registry::TELEGRAM, $telegramPublisher);
-    
-    require(__DIR__ . '/routes.php');
+
 } catch (Throwable $e) {
     $log->error($e->getMessage(), $e->getTrace());
-    ErrorPageView::render(['error' => 'An error happened, sorry ' . $e->getMessage()]);
 } finally {
     unset($testDb);
 }

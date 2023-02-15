@@ -9,15 +9,17 @@ abstract class Registry
 {
     public const LOGGER = 'logger';
     public const DB = 'db';
-
-
-    private static $services = [];
-
-    private static $allowedKeys = [
+    public const TELEGRAM = 'telegram';
+    
+    
+    private static array $services = [];
+    
+    private static array $allowedKeys = [
         self::LOGGER,
         self::DB,
+        self::TELEGRAM,
     ];
-
+    
     /**
      * @param string $key
      * @param        $value
@@ -29,10 +31,10 @@ abstract class Registry
         if (!in_array($key, self::$allowedKeys)) {
             throw new \InvalidArgumentException('Invalid key given');
         }
-
+        
         self::$services[$key] = $value;
     }
-
+    
     /**
      * @param string $key
      *
@@ -43,21 +45,21 @@ abstract class Registry
         if (!isset(self::$services[$key]) || !in_array($key, self::$allowedKeys)) {
             throw new \InvalidArgumentException('Invalid key given');
         }
-
+        
         return self::$services[$key];
     }
-
+    
     /**
      * @param string $key
      *
      * @return void
      */
-    public static function unset(string $key):void
+    public static function unset(string $key): void
     {
         if (!isset(self::$services[$key]) || !in_array($key, self::$allowedKeys)) {
             throw new \InvalidArgumentException('Invalid key given');
         }
-
+        
         unset(self::$services[$key]);
     }
 }

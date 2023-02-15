@@ -10,3 +10,4 @@ workspace.xml
 Thumbs.db
 /app/.idea/
 /app/information_schema/
+/app/configs/config.json
