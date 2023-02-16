@@ -59,7 +59,7 @@ class MainPageController implements FrontController
             $sellUSDVector[0]
         );
     
-        $ratesRepository->addRates(
+        $ratesRepository->storeRates(
             $currentRates
         );
         /**

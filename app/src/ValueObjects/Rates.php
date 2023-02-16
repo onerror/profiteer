@@ -54,7 +54,7 @@ class Rates
      *
      * @return bool
      */
-    public function isDifferentFrom(Rates $ratesToCompareWith): bool
+    public function areDifferentFrom(Rates $ratesToCompareWith): bool
     {
         return ($this->getBuyRate() != $ratesToCompareWith->getBuyRate()
             || $this->getSellRate() != $ratesToCompareWith->getSellRate()

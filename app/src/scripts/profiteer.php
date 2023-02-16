@@ -52,8 +52,8 @@ $currentRates = new Rates(
     $sellUSDVector[0]
 );
 
-if ($currentRates->isDifferentFrom($lastRates)) {
-    $ratesRepository->addRates(
+if ($currentRates->areDifferentFrom($lastRates)) {
+    $ratesRepository->storeRates(
         $currentRates
     );
 }
@@ -71,19 +71,25 @@ $appThresholds = Registry::get(Registry::APP);
 if (abs($currentRates->getBuyRateDifferenceTo($lastRates)) >= $appThresholds->getBigThreshold()) {
     $telegramHandler->publish(
         "Buy rate USD LEAPED from " . $lastRates->getBuyRate() . " sums per $ to current " . $currentRates->getBuyRate(
-        ) . " sums per $ with vector=" . $currentRates->getBuyRateVector()
+        ) . " sums per $ and diff=" . $currentRates->getBuyRateDifferenceTo(
+            $lastRates
+        ) . " with vector=" . $currentRates->getBuyRateVector()
     );
-} elseif (abs($currentRates->getBuyRateDifferenceTo($lastRates)) <= $appThresholds->getSmallThreshold()) {
+} elseif (abs($currentRates->getBuyRateDifferenceTo($lastRates)) >= $appThresholds->getSmallThreshold()) {
     $telegramHandler->publish(
         "Buy rate USD slightly changed from " . $lastRates->getBuyRate(
         ) . " sums per $ to current " . $currentRates->getBuyRate(
-        ) . " sums per $ with vector=" . $currentRates->getBuyRateVector()
+        ) . " sums per $ and diff=" . $currentRates->getBuyRateDifferenceTo(
+            $lastRates
+        ) . " with vector=" . $currentRates->getBuyRateVector()
     );
 }
-if (($currentRates->getSellRate() - $currentRates->getBuyRate()) > $appThresholds->getMarginMinThreshold()) {
+if (($currentRates->getSellRate() - $currentRates->getBuyRate()) < $appThresholds->getMarginMinThreshold()) {
     $telegramHandler->publish(
         "USD threshold is very small, the rate is stable: Sell=" . $currentRates->getSellRate(
-        ) . "sums per $ and buy=" . $currentRates->getBuyRate() . " sums per $"
+        ) . " sums per $ and buy=" . $currentRates->getBuyRate(
+        ) . " sums per $ and diff=" . ($currentRates->getSellRate() - $currentRates->getBuyRate(
+            )) . " is less that threshold=" . $appThresholds->getMarginMinThreshold()
     );
 }
 
