@@ -84,6 +84,22 @@ if (abs($currentRates->getBuyRateDifferenceTo($lastRates)) >= $appThresholds->ge
         ) . " with vector=" . $currentRates->getBuyRateVector()
     );
 }
+if (abs($currentRates->getSellRateDifferenceTo($lastRates)) >= $appThresholds->getBigThreshold()) {
+    $telegramHandler->publish(
+        "Sell rate USD LEAPED from " . $lastRates->getSellRate() . " sums per $ to current " . $currentRates->getSellRate(
+        ) . " sums per $ and diff=" . $currentRates->getSellRateDifferenceTo(
+            $lastRates
+        ) . " with vector=" . $currentRates->getSellRateVector()
+    );
+} elseif (abs($currentRates->getSellRateDifferenceTo($lastRates)) >= $appThresholds->getSmallThreshold()) {
+    $telegramHandler->publish(
+        "Sell rate USD slightly changed from " . $lastRates->getSellRate(
+        ) . " sums per $ to current " . $currentRates->getSellRate(
+        ) . " sums per $ and diff=" . $currentRates->getSellRateDifferenceTo(
+            $lastRates
+        ) . " with vector=" . $currentRates->getSellRateVector()
+    );
+}
 if (($currentRates->getSellRate() - $currentRates->getBuyRate()) < $appThresholds->getMarginMinThreshold()) {
     $telegramHandler->publish(
         "USD threshold is very small, the rate is stable: Sell=" . $currentRates->getSellRate(
