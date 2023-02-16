@@ -6,6 +6,7 @@ use Registry\Registry;
 use Repositories\RatesRepository;
 use Symfony\Component\DomCrawler\Crawler;
 use Telegram\TelegramPublisher;
+use ValueObjects\Rates;
 use Views\MainPageView;
 use GuzzleHttp\Client;
 
@@ -51,14 +52,22 @@ class MainPageController implements FrontController
         ];
     
         $ratesRepository = new RatesRepository(Registry::get(Registry::DB));
-        $ratesRepository->addRates($buyUSDValue[0]*100, $sellUSDValue[0]*100, $buyUSDVector[0]*100, $sellUSDVector[0]*100 );
+        $currentRates = new Rates(
+            $buyUSDValue[0],
+            $sellUSDValue[0],
+            $buyUSDVector[0],
+            $sellUSDVector[0]
+        );
     
+        $ratesRepository->addRates(
+            $currentRates
+        );
         /**
          * @var TelegramPublisher $telegramHandler
          */
         $telegramHandler = Registry::get(Registry::TELEGRAM);
     
-        $response = $telegramHandler->publish("Hello from PHP!\n USD Buying for =" . $data['usd_buy']);
+        $response = $telegramHandler->publish("Hello from PHP!\n USD Buying for =" . $currentRates->getBuyRate());
         
         MainPageView::render($data);
     }

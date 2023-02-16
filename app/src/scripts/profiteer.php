@@ -3,11 +3,13 @@
 require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../../src/bootstrap_script.php';
 
+use AppConfigs\AppConfig;
 use GuzzleHttp\Client;
 use Registry\Registry;
 use Repositories\RatesRepository;
 use Symfony\Component\DomCrawler\Crawler;
 use Telegram\TelegramPublisher;
+use ValueObjects\Rates;
 
 $kapitalBankURL = 'https://kapitalbank.uz/ru/services/exchange-rates/';
 
@@ -39,27 +41,54 @@ $sellUSDVector = $crawler->filter('div.item-usd div.item-rate-sale span.item-val
     }
 );
 
-$data = [
-    'usd_buy' => $buyUSDValue[0],
-    'usd_sell' => $sellUSDValue[0],
-    'usd_buy_vector' => $buyUSDVector[0],
-    'usd_sell_vector' => $sellUSDVector[0],
-];
-
 $ratesRepository = new RatesRepository(Registry::get(Registry::DB));
-$ratesRepository->addRates(
-    $buyUSDValue[0] * 100,
-    $sellUSDValue[0] * 100,
-    $buyUSDVector[0] * 100,
-    $sellUSDVector[0] * 100
+
+$lastRates = $ratesRepository->getLastRates();
+
+$currentRates = new Rates(
+    $buyUSDValue[0],
+    $sellUSDValue[0],
+    $buyUSDVector[0],
+    $sellUSDVector[0]
 );
+
+if ($currentRates->isDifferentFrom($lastRates)) {
+    $ratesRepository->addRates(
+        $currentRates
+    );
+}
 
 /**
  * @var TelegramPublisher $telegramHandler
  */
 $telegramHandler = Registry::get(Registry::TELEGRAM);
 
-$response = $telegramHandler->publish("Hello from PHP!\n USD Buying for =" . $data['usd_buy']);
+/**
+ * @var AppConfig $appThresholds
+ */
+$appThresholds = Registry::get(Registry::APP);
+
+if (abs($currentRates->getBuyRateDifferenceTo($lastRates)) >= $appThresholds->getBigThreshold()) {
+    $telegramHandler->publish(
+        "Buy rate USD LEAPED from " . $lastRates->getBuyRate() . " sums per $ to current " . $currentRates->getBuyRate(
+        ) . " sums per $ with vector=" . $currentRates->getBuyRateVector()
+    );
+} elseif (abs($currentRates->getBuyRateDifferenceTo($lastRates)) <= $appThresholds->getSmallThreshold()) {
+    $telegramHandler->publish(
+        "Buy rate USD slightly changed from " . $lastRates->getBuyRate(
+        ) . " sums per $ to current " . $currentRates->getBuyRate(
+        ) . " sums per $ with vector=" . $currentRates->getBuyRateVector()
+    );
+}
+if (($currentRates->getSellRate() - $currentRates->getBuyRate()) > $appThresholds->getMarginMinThreshold()) {
+    $telegramHandler->publish(
+        "USD threshold is very small, the rate is stable: Sell=" . $currentRates->getSellRate(
+        ) . "sums per $ and buy=" . $currentRates->getBuyRate() . " sums per $"
+    );
+}
+
+
+$response = $telegramHandler->publish("Hello from PHP!\n USD Buying for =" . $currentRates->getBuyRate());
 
 echo("Done");
 echo($response);

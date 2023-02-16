@@ -10,6 +10,7 @@ abstract class Registry
     public const LOGGER = 'logger';
     public const DB = 'db';
     public const TELEGRAM = 'telegram';
+    public const APP = 'app';
     
     
     private static array $services = [];
@@ -18,6 +19,7 @@ abstract class Registry
         self::LOGGER,
         self::DB,
         self::TELEGRAM,
+        self::APP,
     ];
     
     /**

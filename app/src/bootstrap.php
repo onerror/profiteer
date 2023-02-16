@@ -27,9 +27,17 @@ try {
         $configs['telegram']['api_token'], $configs['telegram']['chat_id']
     );
     
+    $appConfig = new \AppConfigs\AppConfig(
+        $configs['app']['rate_change_for_small_alarm'],
+        $configs['app']['rate_change_for_big_alarm'],
+        $configs['app']['margin_min_threshold']
+        
+    );
+    
     Registry::set(Registry::LOGGER, $log);
     Registry::set(Registry::DB, $testDb);
     Registry::set(Registry::TELEGRAM, $telegramPublisher);
+    Registry::set(Registry::APP, $appConfig);
     
     require(__DIR__ . '/routes.php');
 } catch (Throwable $e) {
