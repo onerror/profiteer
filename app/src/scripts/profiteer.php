@@ -94,8 +94,8 @@ if (($currentRates->getSellRate() - $currentRates->getBuyRate()) < $appThreshold
 }
 
 
-$response = $telegramHandler->publish("Hello from PHP!\n USD Buying for =" . $currentRates->getBuyRate());
-
-echo("Done");
-echo($response);
+//$response = $telegramHandler->publish("Hello from PHP!\n USD Buying for =" . $currentRates->getBuyRate());
+//
+//echo("Done");
+//echo($response);
 die();
