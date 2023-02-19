@@ -86,7 +86,8 @@ if (abs($currentRates->getBuyRateDifferenceTo($lastRates)) >= $appThresholds->ge
 }
 if (abs($currentRates->getSellRateDifferenceTo($lastRates)) >= $appThresholds->getBigThreshold()) {
     $telegramHandler->publish(
-        "Sell rate USD LEAPED from " . $lastRates->getSellRate() . " sums per $ to current " . $currentRates->getSellRate(
+        "Sell rate USD LEAPED from " . $lastRates->getSellRate(
+        ) . " sums per $ to current " . $currentRates->getSellRate(
         ) . " sums per $ and diff=" . $currentRates->getSellRateDifferenceTo(
             $lastRates
         ) . " with vector=" . $currentRates->getSellRateVector()
@@ -114,8 +115,8 @@ $start = '110501';//or '11:05:01'
 $end = '1701000';//or '11:10:00'
 if (date('D') == 'Sun' && $now >= $start && $now <= $end) {
     $telegramHandler->publish(
-        "Hello! It's Sunday in Tashkent, and I'm still alive. Just a message I write every Sunday for you. Have a great day!\n".
-        "The USB buy=". $currentRates->getBuyRate(). " and sell=". $currentRates->getSellRate());
+        "Hello! It's Sunday in Tashkent, and I'm still alive. Just a message I write every Sunday for you. Have a great day!\n" .
+        "The USB buy=" . $currentRates->getBuyRate() . " and sell=" . $currentRates->getSellRate()
     );
 }
 
