@@ -110,9 +110,9 @@ if (($currentRates->getSellRate() - $currentRates->getBuyRate()) < $appThreshold
     );
 }
 
-$now = date("His");//or date("H:i:s")
-$start = '110430';
-$end = '1700900';
+$now = gmdate("His");//or date("H:i:s")
+$start = '070430';
+$end = '070930';
 if (date('D') == 'Sun' && $now >= $start && $now <= $end) {
     $telegramHandler->publish(
         "Hello! It's Sunday in Tashkent, and I'm still alive. Just a message I write every Sunday for you. Have a great day!\n" .
