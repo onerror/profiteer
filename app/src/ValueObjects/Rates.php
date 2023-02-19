@@ -78,7 +78,7 @@ class Rates
      * @return int
      */
     public function getSellRateDifferenceTo (Rates $anotherRate):int{
-        return $this->getSelRate() - $anotherRate->getSellRate();
+        return $this->getSellRate() - $anotherRate->getSellRate();
     }
     
 }

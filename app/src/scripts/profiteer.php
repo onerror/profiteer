@@ -116,7 +116,7 @@ $end = '070930';
 if (date('D') == 'Sun' && $now >= $start && $now <= $end) {
     $telegramHandler->publish(
         "Hello! It's Sunday in Tashkent, and I'm still alive. Just a message I write every Sunday for you. Have a great day!\n" .
-        "The USB buy=" . $currentRates->getBuyRate() . " and sell=" . $currentRates->getSellRate()
+        "The USD buy=" . $currentRates->getBuyRate() . " and sell=" . $currentRates->getSellRate()
     );
 }
 
